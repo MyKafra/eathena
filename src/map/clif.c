@@ -48,8 +48,8 @@
 #include <stdarg.h>
 #include <time.h>
 
-//#define DUMP_UNKNOWN_PACKET
-//#define DUMP_INVALID_PACKET
+#define DUMP_UNKNOWN_PACKET
+#define DUMP_INVALID_PACKET
 
 struct Clif_Config {
 	int packet_db_ver;	//Preferred packet version.

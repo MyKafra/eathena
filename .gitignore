@@ -1,0 +1,17 @@
+*.exe
+*.ilk
+*.pdb
+*.opensdf
+*.sdf
+*.suo
+
+# /conf/
+/conf/import
+
+# /vcproj-*
+/vcproj-*/mapcache
+/vcproj-*/common*
+/vcproj-*/login-server_*
+/vcproj-*/char-server_*
+/vcproj-*/map-server_*
+/vcproj-*/*-converter-*

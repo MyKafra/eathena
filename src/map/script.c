@@ -7457,7 +7457,10 @@ BUILDIN_FUNC(setoption)
 		flag = script_getnum(st,3);
 	else if( !option ){// Request to remove everything.
 		flag = 0;
-		option = OPTION_CART|OPTION_FALCON|OPTION_RIDING;
+		option = OPTION_FALCON|OPTION_RIDING;
+#ifndef NEW_CARTS
+		option |= OPTION_CART;
+#endif
 	}
 	if( flag ){// Add option
 		if( option&OPTION_WEDDING && !battle_config.wedding_modifydisplay )
@@ -15417,6 +15420,68 @@ BUILDIN_FUNC(showdigit)
 	return 0;
 }
 
+BUILDIN_FUNC(npcshopcreate) {
+	struct npc_data *nd;
+	const char *shopname = script_getstr(st, 2);
+	int type = script_getnum(st, 3);
+
+	CREATE(nd, struct npc_data, 1);
+	nd->subtype = (type == 3) ? CASHSHOP : SHOP;
+	nd->bl.type = BL_NPC;
+	nd->bl.id = npc_get_new_npc_id();
+	nd->bl.prev = nd->bl.next = NULL;
+	nd->bl.m = -1;
+	nd->bl.x = 0;
+	nd->bl.y = 0;
+	nd->class_ = -1;
+	nd->speed = 200;
+	map_addiddb(&nd->bl);
+	strdb_put(npcname_db, nd->exname, nd);
+
+	return true;
+}
+
+BUILDIN_FUNC(instanceshop_create) {
+	struct npc_data *nd;
+	struct map_session_data *sd = script_rid2sd(st);
+	short shoptype = script_getnum(st, 2);
+	const char *shopname = script_getstr(st, 3);
+
+	if ((nd = npc_name2id(shopname)) != NULL) {
+		npc_unload(nd);
+	}
+
+	CREATE(nd, struct npc_data, 1);
+	if (sd && nd) {
+		nd->subtype = shoptype == 1 ? SHOP : CASHSHOP;
+		nd->bl.type = BL_NPC;
+		nd->bl.id = npc_get_new_npc_id();
+		nd->bl.prev = nd->bl.next = NULL;
+		nd->bl.m = -1;
+		nd->bl.x = 0;
+		nd->bl.y = 0;
+		nd->class_ = -1;
+		nd->speed = 200;
+
+		safestrncpy(nd->name, shopname, sizeof(nd->name));
+		safestrncpy(nd->exname, shopname, sizeof(nd->exname));
+		map_addiddb(&nd->bl);
+		strdb_put(npcname_db, nd->exname, nd);
+	}
+
+	return true;
+}
+
+BUILDIN_FUNC(instanceshop_destroy) {
+	struct npc_data *nd;
+	const char *shopname = script_getstr(st, 2);
+
+	if ((nd = npc_name2id(shopname)) != NULL) {
+		npc_unload(nd);
+	}
+
+	return true;
+}
 
 // declarations that were supposed to be exported from npc_chat.c
 #ifdef PCRE_SUPPORT
@@ -15834,5 +15899,10 @@ struct script_function buildin_func[] = {
 	BUILDIN_DEF(checkquest, "i?"),
 	BUILDIN_DEF(changequest, "ii"),
 	BUILDIN_DEF(showevent, "ii"),
+
+	BUILDIN_DEF(npcshopcreate, "si"),
+	BUILDIN_DEF(instanceshop_create, "is"),
+	BUILDIN_DEF(instanceshop_destroy, "s"),
+
 	{NULL,NULL,NULL},
 };

@@ -155,5 +155,6 @@ int npc_duplicate4instance(struct npc_data *snd, int m);
 int npc_cashshop_buy(struct map_session_data* sd, unsigned int nameid, int amount, int points);
 
 extern struct npc_data* fake_nd;
+extern DBMap* npcname_db;
 
 #endif /* _NPC_H_ */

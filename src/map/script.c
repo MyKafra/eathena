@@ -15426,6 +15426,8 @@ BUILDIN_FUNC(npcshopcreate) {
 	int type = script_getnum(st, 3);
 
 	CREATE(nd, struct npc_data, 1);
+	safestrncpy(nd->name, shopname, sizeof(nd->name));
+	safestrncpy(nd->exname, shopname, sizeof(nd->exname));
 	nd->subtype = (type == 3) ? CASHSHOP : SHOP;
 	nd->bl.type = BL_NPC;
 	nd->bl.id = npc_get_new_npc_id();

@@ -15430,7 +15430,7 @@ BUILDIN_FUNC(npcshopcreate) {
 	nd->bl.type = BL_NPC;
 	nd->bl.id = npc_get_new_npc_id();
 	nd->bl.prev = nd->bl.next = NULL;
-	nd->bl.m = -1;
+	nd->bl.m = 0;
 	nd->bl.x = 0;
 	nd->bl.y = 0;
 	nd->class_ = -1;
@@ -15457,7 +15457,7 @@ BUILDIN_FUNC(instanceshop_create) {
 		nd->bl.type = BL_NPC;
 		nd->bl.id = npc_get_new_npc_id();
 		nd->bl.prev = nd->bl.next = NULL;
-		nd->bl.m = -1;
+		nd->bl.m = 0;
 		nd->bl.x = 0;
 		nd->bl.y = 0;
 		nd->class_ = -1;

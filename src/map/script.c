@@ -15485,6 +15485,28 @@ BUILDIN_FUNC(instanceshop_destroy) {
 	return true;
 }
 
+BUILDIN_FUNC(callshoptrial) {
+	const char *shopname = script_getstr(st, 2);
+	struct map_session_data *sd = script_rid2sd(st);
+	struct npc_data *nd;
+
+	if (!sd) {
+		script_pushint(st, 0);
+		return false;
+	}
+
+	nd = npc_name2id(shopname);
+	if (!nd || nd->bl.type != BL_NPC || (nd->subtype != SHOP || nd->subtype != CASHSHOP)) {
+		ShowError("buildin_callshoptrial: Shop [%s] not found (or NPC is not shop type)\n", shopname);
+		script_pushint(st, 0);
+		return false;
+	}
+
+	npc_buysellsel(sd, nd->bl.id, 0);
+	sd->npc_shopid = nd->bl.id;
+	return true;
+}
+
 // declarations that were supposed to be exported from npc_chat.c
 #ifdef PCRE_SUPPORT
 BUILDIN_FUNC(defpattern);
@@ -15905,6 +15927,7 @@ struct script_function buildin_func[] = {
 	BUILDIN_DEF(npcshopcreate, "si"),
 	BUILDIN_DEF(instanceshop_create, "is"),
 	BUILDIN_DEF(instanceshop_destroy, "s"),
+	BUILDIN_DEF(callshoptrial, "s"),
 
 	{NULL,NULL,NULL},
 };

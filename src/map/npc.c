@@ -1287,7 +1287,7 @@ int npc_buylist(struct map_session_data* sd, int n, unsigned short* item_list)
 	nd = npc_checknear(sd,map_id2bl(sd->npc_shopid));
 	if( nd == NULL )
 		return 3;
-	if( nd->subtype != SHOP )
+	if (nd->subtype != SHOP && nd->subtype != CASHSHOP)
 		return 3;
 
 	z = 0;

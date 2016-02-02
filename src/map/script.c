@@ -13480,7 +13480,7 @@ BUILDIN_FUNC(npcshopattach)
 	if( script_hasdata(st,3) )
 		flag = script_getnum(st,3);
 
-	if( !nd || nd->subtype != SHOP )
+	if (!nd || nd->subtype != SHOP || nd->subtype != CASHSHOP)
 	{	//Not found.
 		script_pushint(st,0);
 		return 0;
@@ -15503,6 +15503,8 @@ BUILDIN_FUNC(callshoptrial) {
 	}
 
 	npc_buysellsel(sd, nd->bl.id, 0);
+	sd->npc_shopid = nd->bl.id;
+	script_pushint(st, 1);
 	return true;
 }
 

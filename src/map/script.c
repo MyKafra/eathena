@@ -15496,7 +15496,7 @@ BUILDIN_FUNC(callshoptrial) {
 	}
 
 	nd = npc_name2id(shopname);
-	if (!nd || nd->bl.type != BL_NPC || (nd->subtype != SHOP || nd->subtype != CASHSHOP)) {
+	if (!nd || nd->bl.type != BL_NPC || (nd->subtype != SHOP && nd->subtype != CASHSHOP)) {
 		ShowError("buildin_callshoptrial: Shop [%s] not found (or NPC is not shop type)\n", shopname);
 		script_pushint(st, 0);
 		return false;

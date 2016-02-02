@@ -1146,7 +1146,7 @@ int npc_buysellsel(struct map_session_data* sd, int id, int type)
 	if ((nd = npc_checknear(sd,map_id2bl(id))) == NULL)
 		return 1;
 	
-	if (nd->subtype!=SHOP) {
+	if (nd->subtype!=SHOP || nd->subtype!=CASHSHOP) {
 		ShowError("no such shop npc : %d\n",id);
 		if (sd->npc_id == id)
 			sd->npc_id=0;

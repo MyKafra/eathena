@@ -15503,7 +15503,6 @@ BUILDIN_FUNC(callshoptrial) {
 	}
 
 	npc_buysellsel(sd, nd->bl.id, 0);
-	sd->npc_shopid = nd->bl.id;
 	return true;
 }
 
